@@ -5,9 +5,9 @@ import yaml
 @CrewBase
 class MyCrew():
 
-    with open('C:\\Users\\hp\\Coding Projects\\havk-project-name-undecided\\my_crew\\src\\my_crew\\config\\agents.yaml') as f:
+    with open('my_crew\\src\\my_crew\\config\\agents.yaml') as f:
         agents_config = yaml.safe_load(f)
-    with open('C:\\Users\\hp\\Coding Projects\\havk-project-name-undecided\\my_crew\\src\\my_crew\\config\\tasks.yaml') as f:
+    with open('my_crew\\src\\my_crew\\config\\tasks.yaml') as f:
         tasks_config = yaml.safe_load(f)
 
     @agent
