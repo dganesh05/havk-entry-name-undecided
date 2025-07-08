@@ -1,0 +1,52 @@
+handle_new_aid_request:
+  agent: supervisor_agent
+  description: >
+    Entry point for incoming aid requests. Oversees the flow by coordinating
+    intake, validation, storage, and confirmation.
+  expected_output: >
+    Aid request flow initiated. Intake delegated to conversational agent, 
+    data validation and storage triggered, and confirmation prepared.
+
+extract_request_information:
+  agent: conversational_intake_agent
+  description: >
+    Gathers and structures user-provided information through empathetic conversation.
+    May ask 1–3 clarifying questions to complete missing fields.
+  expected_output: >
+    JSON object with required fields:
+    - category (e.g. food, hygiene)
+    - urgency (low | medium | high)
+    - help_mode (physical | virtual | unknown)
+    - location_hint (approximate)
+    - description (short summary)
+    - is_anonymous (boolean)
+    If user declines to answer, include 'unknown' or default-safe value.
+
+store_aid_request:
+  agent: database_handler_agent
+  description: >
+    Validates and securely stores aid request JSON into the database.
+    Confirms successful write or reports failure.
+  expected_output: >
+    Record stored in database with a unique ID and no validation errors.
+    Malformed or unsafe entries are rejected with a structured error response.
+
+
+send_confirmation_message:
+  agent: supervisor_agent
+  description: >
+    Sends a confirmation to the user after successful request storage.
+    Aims to reassure and provide next steps.
+  expected_output: >
+    Personalized confirmation message delivered to requester. 
+    Message respects anonymity preferences and reflects urgency level 
+    (e.g., “We’ll try to connect you quickly.”)
+  
+simulate_aid_request:
+  agent: supervisor_agent
+  description: >
+    Runs a simulated intake-to-storage process to test system end-to-end.
+  expected_output: >
+    Full end-to-end simulation completed. 
+    Outputs mock JSON, simulates question/answer exchange, 
+    and logs storage + confirmation steps.
