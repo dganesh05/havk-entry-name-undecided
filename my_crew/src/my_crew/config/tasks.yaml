@@ -45,7 +45,11 @@ send_confirmation_message:
 simulate_aid_request:
   agent: supervisor_agent
   description: >
-    Runs a simulated intake-to-storage process to test system end-to-end.
+    Runs a simulated intake-to-storage process to test system end-to-end. Simulate an edge
+    case of your choice, such as a user who is not able to answer the questions, or a user 
+    who answers multiple questions unintentionally with a single chat response. Try a test
+    scenario of your choice, such as a user requesting groceries, or a user requesting tutoring
+    assistance for their child. 
   expected_output: >
     Full end-to-end simulation completed. 
     Outputs mock JSON, simulates question/answer exchange, 

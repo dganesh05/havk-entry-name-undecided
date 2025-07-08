@@ -1,83 +1,55 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
-import yaml
+from crewai.agents.agent_builder.base_agent import BaseAgent
+from typing import List
 
 @CrewBase
 class MyCrew():
 
-    with open('my_crew\\src\\my_crew\\config\\agents.yaml') as f:
-        agents_config = yaml.safe_load(f)
-    with open('my_crew\\src\\my_crew\\config\\tasks.yaml') as f:
-        tasks_config = yaml.safe_load(f)
+    agents: List[BaseAgent]
+    tasks: List[Task]
 
     @agent
     def supervisor_agent(self) -> Agent:
         return Agent(
-            **self.agents_config['supervisor_agent'],
+            config=self.agents_config['supervisor_agent'], # type: ignore[index]
             verbose=True
         )
 
     @agent
     def conversational_intake_agent(self) -> Agent:
         return Agent(
-            **self.agents_config['conversational_intake_agent'],
+            config=self.agents_config['conversational_intake_agent'],  # type: ignore[index]
             verbose=True
         )
 
     @agent
     def database_handler_agent(self) -> Agent:
         return Agent(
-            **self.agents_config['database_handler_agent'],
+            config=self.agents_config['database_handler_agent'], # type: ignore[index]
             verbose=True
         )
 
     @task
     def handle_new_aid_request(self) -> Task:
-        return Task(
-            **self.tasks_config['handle_new_aid_request']
-        )
+        return Task(config=self.tasks_config['handle_new_aid_request']) # type: ignore[index]
 
     @task
     def extract_request_information(self) -> Task:
-        return Task(
-            **self.tasks_config['extract_request_information']
-        )
+        return Task(config=self.tasks_config['extract_request_information']) # type: ignore[index]
 
     @task
     def store_aid_request(self) -> Task:
-        return Task(
-            **self.tasks_config['store_aid_request']
-        )
+        return Task(config=self.tasks_config['store_aid_request']) # type: ignore[index]
 
     @task
     def send_confirmation_message(self) -> Task:
-        return Task(
-            **self.tasks_config['send_confirmation_message']
-        )
+        return Task(config=self.tasks_config['send_confirmation_message']) # type: ignore[index]
 
     @task
     def simulate_aid_request(self) -> Task:
-        return Task(
-            **self.tasks_config['simulate_aid_request']
-        )
+        return Task(config=self.tasks_config['simulate_aid_request']) # type: ignore[index]
 
-    @property
-    def agents(self):
-        return [
-            self.supervisor_agent(),
-            self.conversational_intake_agent(),
-            self.database_handler_agent(),
-        ]
-
-    @property
-    def tasks(self):
-        return [
-            self.handle_new_aid_request(),
-            self.extract_request_information(),
-            self.store_aid_request(),
-            self.send_confirmation_message(),
-            self.simulate_aid_request(),
-        ]
 
     @crew
     def crew(self) -> Crew:
