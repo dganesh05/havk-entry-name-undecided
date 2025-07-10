@@ -1,8 +1,8 @@
 handle_new_aid_request:
   agent: supervisor_agent
   description: >
-    Entry point for incoming aid requests. Oversees the flow by coordinating
-    intake, validation, storage, and confirmation.
+    Initiates the aid request process by coordinating the intake, validation, and storage steps. 
+    Ensures each stage is completed in sequence and prepares a confirmation for the requester.
   expected_output: >
     Aid request flow initiated. Intake delegated to conversational agent, 
     data validation and storage triggered, and confirmation prepared.
@@ -10,8 +10,8 @@ handle_new_aid_request:
 extract_request_information:
   agent: conversational_intake_agent
   description: >
-    Gathers and structures user-provided information through empathetic conversation.
-    May ask 1–3 clarifying questions to complete missing fields.
+    Collects and structures user-provided information through a brief conversational 
+    exchange. May ask up to three clarifying questions to complete required fields.
   expected_output: >
     JSON object with required fields:
     - category (e.g. food, hygiene)
@@ -25,18 +25,17 @@ extract_request_information:
 store_aid_request:
   agent: database_handler_agent
   description: >
-    Validates and securely stores aid request JSON into the database.
-    Confirms successful write or reports failure.
+    Validates and securely stores the structured aid request data in the database. 
+    Confirms successful storage or reports any errors encountered.
   expected_output: >
     Record stored in database with a unique ID and no validation errors.
     Malformed or unsafe entries are rejected with a structured error response.
 
-
 send_confirmation_message:
   agent: supervisor_agent
   description: >
-    Sends a confirmation to the user after successful request storage.
-    Aims to reassure and provide next steps.
+    Delivers a confirmation message to the requester after successful storage of 
+    the aid request. The message reflects urgency and respects anonymity preferences.
   expected_output: >
     Personalized confirmation message delivered to requester. 
     Message respects anonymity preferences and reflects urgency level 
@@ -45,11 +44,9 @@ send_confirmation_message:
 simulate_aid_request:
   agent: supervisor_agent
   description: >
-    Runs a simulated intake-to-storage process to test system end-to-end. Simulate an edge
-    case of your choice, such as a user who is not able to answer the questions, or a user 
-    who answers multiple questions unintentionally with a single chat response. Try a test
-    scenario of your choice, such as a user requesting groceries, or a user requesting tutoring
-    assistance for their child. 
+    Runs a simulated end-to-end process from intake to storage, testing edge cases such 
+    as incomplete answers or multi-part responses. Outputs mock data and logs each step 
+    of the process.
   expected_output: >
     Full end-to-end simulation completed. 
     Outputs mock JSON, simulates question/answer exchange, 

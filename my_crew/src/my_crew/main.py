@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 import sys
 import warnings
-
 from datetime import datetime
-
 from my_crew.crew import MyCrew
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
